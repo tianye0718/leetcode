@@ -70,20 +70,37 @@ type ListNode struct {
  *     Next *ListNode
  * }
  */
+// Iterative
+// func reverseList(head *ListNode) *ListNode {
+// 	if head == nil || head.Next == nil {
+// 		return head
+// 	}
+// 	var pre *ListNode
+// 	curr := head
+
+// 	for curr != nil {
+// 		tmp := curr.Next
+// 		curr.Next = pre
+// 		pre = curr
+// 		curr = tmp
+// 	}
+// 	return pre
+// }
+
+// Recursive
 func reverseList(head *ListNode) *ListNode {
 	if head == nil || head.Next == nil {
 		return head
 	}
-	var pre *ListNode
-	curr := head
-
-	for curr != nil {
-		tmp := curr.Next
-		curr.Next = pre
-		pre = curr
-		curr = tmp
+	return reverse(nil, head)
+}
+func reverse(prev, head *ListNode) *ListNode {
+	if head == nil {
+		return prev
 	}
-	return pre
+	tmp := head.Next
+	head.Next = prev
+	return reverse(head, tmp)
 }
 
 // @lc code=end
