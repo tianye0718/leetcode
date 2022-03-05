@@ -56,35 +56,84 @@ package main
 import "sort"
 
 // @lc code=start
-func threeSum(nums []int) (res [][]int) {
+
+// Two pointers
+
+// func threeSum(nums []int) (res [][]int) {
+// 	sort.Ints(nums)
+// 	for i := 0; i < len(nums); i++ {
+// 		n1 := nums[i]
+// 		if n1 > 0 {
+// 			return res
+// 		}
+// 		if i > 0 && n1 == nums[i-1] {
+// 			continue
+// 		}
+// 		l, r := i+1, len(nums)-1
+// 		for l < r {
+// 			n2, n3 := nums[l], nums[r]
+// 			if n1+n2+n3 == 0 {
+// 				res = append(res, []int{n1, n2, n3})
+// 				// remove duplicate
+// 				for l < r && n2 == nums[l] {
+// 					l++
+// 				}
+// 				for l < r && n3 == nums[r] {
+// 					r--
+// 				}
+// 			} else if n1+n2+n3 < 0 {
+// 				l++
+// 			} else {
+// 				r--
+// 			}
+// 		}
+
+// 	}
+// 	return res
+// }
+
+// Backtracking
+func threeSum(nums []int) [][]int {
 	sort.Ints(nums)
-	for i := 0; i < len(nums); i++ {
-		n1 := nums[i]
-		if n1 > 0 {
-			return res
-		}
-		if i > 0 && n1 == nums[i-1] {
-			continue
-		}
-		l, r := i+1, len(nums)-1
-		for l < r {
-			n2, n3 := nums[l], nums[r]
-			if n1+n2+n3 == 0 {
-				res = append(res, []int{n1, n2, n3})
-				// remove duplicate
-				for l < r && n2 == nums[l] {
-					l++
-				}
-				for l < r && n3 == nums[r] {
-					r--
-				}
-			} else if n1+n2+n3 < 0 {
-				l++
-			} else {
-				r--
+	return nSum(nums, 3, 0, 0)
+}
+
+func nSum(nums []int, n int, start int, target int) (res [][]int) {
+	sz := len(nums)
+	if n < 2 || n > sz {
+		return res
+	}
+	if n > 2 {
+		for i := start; i < sz; i++ {
+			sub := nSum(nums, n-1, i+1, target-nums[i])
+			for _, arr := range sub {
+				arr = append(arr, nums[i])
+				res = append(res, arr)
+			}
+			for i < sz-1 && nums[i] == nums[i+1] {
+				i++
 			}
 		}
 
+	} else if n == 2 {
+		lo, hi := start, sz-1
+		for lo < hi {
+			left := nums[lo]
+			right := nums[hi]
+			if left+right > target {
+				hi--
+			} else if left+right < target {
+				lo++
+			} else {
+				res = append(res, []int{left, right})
+				for lo < hi && left == nums[lo] {
+					lo++
+				}
+				for lo < hi && right == nums[hi] {
+					hi--
+				}
+			}
+		}
 	}
 	return res
 }
