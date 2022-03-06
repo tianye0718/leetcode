@@ -74,27 +74,15 @@ type TreeNode struct {
  * }
  */
 func insertIntoBST(root *TreeNode, val int) *TreeNode {
-	newNode := &TreeNode{Val: val}
 	if root == nil {
-		return newNode
+		return &TreeNode{Val: val}
 	}
-	return insert(root, newNode)
-}
-func insert(node *TreeNode, newNode *TreeNode) *TreeNode {
-	if newNode.Val > node.Val {
-		if node.Right == nil {
-			node.Right = newNode
-		} else {
-			node.Right = insert(node.Right, newNode)
-		}
-	} else { // newNode.Val < node.Val
-		if node.Left == nil {
-			node.Left = newNode
-		} else {
-			node.Left = insert(node.Left, newNode)
-		}
+	if val > root.Val {
+		root.Right = insertIntoBST(root.Right, val)
+	} else {
+		root.Left = insertIntoBST(root.Left, val)
 	}
-	return node
+	return root
 }
 
 // @lc code=end
