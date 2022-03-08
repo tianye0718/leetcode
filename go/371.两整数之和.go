@@ -1,0 +1,55 @@
+/*
+ * @lc app=leetcode.cn id=371 lang=golang
+ *
+ * [371] 两整数之和
+ *
+ * https://leetcode-cn.com/problems/sum-of-two-integers/description/
+ *
+ * algorithms
+ * Medium (61.36%)
+ * Likes:    587
+ * Dislikes: 0
+ * Total Accepted:    87.8K
+ * Total Submissions: 143K
+ * Testcase Example:  '1\n2'
+ *
+ * 给你两个整数 a 和 b ，不使用 运算符 + 和 - ​​​​​​​，计算并返回两整数之和。
+ *
+ *
+ *
+ * 示例 1：
+ *
+ *
+ * 输入：a = 1, b = 2
+ * 输出：3
+ *
+ *
+ * 示例 2：
+ *
+ *
+ * 输入：a = 2, b = 3
+ * 输出：5
+ *
+ *
+ *
+ *
+ * 提示：
+ *
+ *
+ * -1000 <= a, b <= 1000
+ *
+ *
+ */
+package main
+
+// @lc code=start
+func getSum(a int, b int) int {
+	if b == 0 {
+		return a
+	}
+	sum := a ^ b
+	carry := (a & b) << 1
+	return getSum(sum, carry)
+}
+
+// @lc code=end
