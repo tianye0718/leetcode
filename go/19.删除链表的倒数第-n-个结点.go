@@ -54,7 +54,7 @@
  * 进阶：你能尝试使用一趟扫描实现吗？
  *
  */
-package main
+package leetcode0019
 
 type ListNode struct {
 	Val  int

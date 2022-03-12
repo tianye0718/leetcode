@@ -71,7 +71,7 @@
  *
  *
  */
-package main
+package leetcode0027
 
 // @lc code=start
 func removeElement(nums []int, val int) int {

@@ -50,7 +50,7 @@
  *
  *
  */
-package main
+package leetcode0050
 
 // @lc code=start
 func myPow(x float64, n int) float64 {

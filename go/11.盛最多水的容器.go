@@ -50,7 +50,7 @@
  *
  *
  */
-package main
+package leetcode0011
 
 // @lc code=start
 func maxArea(height []int) int {

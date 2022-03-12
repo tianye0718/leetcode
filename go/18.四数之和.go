@@ -51,7 +51,7 @@
  *
  *
  */
-package main
+package leetcode0018
 
 import "sort"
 

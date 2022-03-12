@@ -40,7 +40,7 @@
  *
  *
  */
-package main
+package leetcode0059
 
 // @lc code=start
 func generateMatrix(n int) [][]int {

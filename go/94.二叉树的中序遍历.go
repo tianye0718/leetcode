@@ -66,7 +66,7 @@
  * 进阶: 递归算法很简单，你可以通过迭代算法完成吗？
  *
  */
-package main
+package leetcode0094
 
 type TreeNode struct {
 	Val   int

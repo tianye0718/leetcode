@@ -68,7 +68,7 @@
  *
  *
  */
-package main
+package leetcode0020
 
 // @lc code=start
 func isValid(s string) bool {

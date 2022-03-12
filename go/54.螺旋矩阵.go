@@ -43,7 +43,7 @@
  *
  *
  */
-package main
+package leetcode0054
 
 // @lc code=start
 func spiralOrder(matrix [][]int) (res []int) {
