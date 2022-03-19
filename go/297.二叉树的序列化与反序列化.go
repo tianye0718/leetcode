@@ -95,47 +95,108 @@ func Constructor() Codec {
 const NIL = "#"
 const SEP = ","
 
+// DFS
+// // Serializes a tree to a single string.
+// func (this *Codec) serialize(root *TreeNode) string {
+// 	var sb strings.Builder
+// 	var doSerialize func(node *TreeNode)
+// 	doSerialize = func(node *TreeNode) {
+// 		if node == nil {
+// 			sb.WriteString(NIL)
+// 			sb.WriteString(SEP)
+// 			return
+// 		}
+// 		val := strconv.Itoa(node.Val)
+// 		sb.WriteString(val)
+// 		sb.WriteString(SEP)
+// 		doSerialize(node.Left)
+// 		doSerialize(node.Right)
+// 	}
+// 	doSerialize(root)
+// 	return sb.String()
+// }
+
+// // Deserializes your encoded data to tree.
+// func (this *Codec) deserialize(data string) *TreeNode {
+// 	s := strings.Split(data, SEP)
+// 	var doDeserialize func() *TreeNode
+// 	doDeserialize = func() *TreeNode {
+// 		if len(s) == 0 {
+// 			return nil
+// 		}
+// 		if s[0] == NIL {
+// 			s = s[1:]
+// 			return nil
+// 		}
+// 		val, _ := strconv.Atoi(s[0])
+// 		root := &TreeNode{Val: val}
+// 		s = s[1:]
+// 		root.Left = doDeserialize()
+// 		root.Right = doDeserialize()
+// 		return root
+// 	}
+// 	return doDeserialize()
+// }
+
+// BFS
 // Serializes a tree to a single string.
 func (this *Codec) serialize(root *TreeNode) string {
+	if root == nil {
+		return ""
+	}
 	var sb strings.Builder
-	var doSerialize func(node *TreeNode)
-	doSerialize = func(node *TreeNode) {
-		if node == nil {
+	q := make([]*TreeNode, 0)
+	q = append(q, root)
+	for len(q) != 0 {
+		cur := q[0]
+		q = q[1:]
+		if cur == nil {
 			sb.WriteString(NIL)
 			sb.WriteString(SEP)
-			return
+			continue
 		}
-		val := strconv.Itoa(node.Val)
-		sb.WriteString(val)
+		sb.WriteString(strconv.Itoa(cur.Val))
 		sb.WriteString(SEP)
-		doSerialize(node.Left)
-		doSerialize(node.Right)
+		q = append(q, cur.Left)
+		q = append(q, cur.Right)
 	}
-	doSerialize(root)
 	return sb.String()
 }
 
 // Deserializes your encoded data to tree.
-
 func (this *Codec) deserialize(data string) *TreeNode {
-	s := strings.Split(data, SEP)
-	var doDeserialize func() *TreeNode
-	doDeserialize = func() *TreeNode {
-		if len(s) == 0 {
-			return nil
-		}
-		if s[0] == NIL {
-			s = s[1:]
-			return nil
-		}
-		val, _ := strconv.Atoi(s[0])
-		root := &TreeNode{Val: val}
-		s = s[1:]
-		root.Left = doDeserialize()
-		root.Right = doDeserialize()
-		return root
+	if len(data) == 0 {
+		return nil
 	}
-	return doDeserialize()
+	nodes := strings.Split(data, SEP)
+	rootVal, _ := strconv.Atoi(nodes[0])
+	root := &TreeNode{Val: rootVal}
+
+	q := make([]*TreeNode, 0)
+	q = append(q, root)
+	// the serialized string is like this: "1,2,3,#,#,4,5,"
+	// Split it to slice, it will has 8 items, the last one shouldn't be counted.
+	for i := 1; i < len(nodes)-1; {
+		parent := q[0]
+		q = q[1:]
+		// generate the left node of the current parent
+		left := nodes[i]
+		i++
+		if left != NIL {
+			leftVal, _ := strconv.Atoi(left)
+			parent.Left = &TreeNode{Val: leftVal}
+			q = append(q, parent.Left)
+		}
+		// generate the right node of the current parent
+		right := nodes[i]
+		i++
+		if right != NIL {
+			rightVal, _ := strconv.Atoi(right)
+			parent.Right = &TreeNode{Val: rightVal}
+			q = append(q, parent.Right)
+		}
+	}
+	return root
 }
 
 /**
